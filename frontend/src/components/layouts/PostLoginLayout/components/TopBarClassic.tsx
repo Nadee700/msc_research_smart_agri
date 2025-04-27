@@ -8,8 +8,9 @@ import useResponsive from '@/utils/hooks/useResponsive'
 import { LAYOUT_TOP_BAR_CLASSIC } from '@/constants/theme.constant'
 import type { CommonProps } from '@/@types/common'
 import Clock from '@/components/custom/Clock/Clock'
-import LangSelect from '@/components/custom/LangSelect'
-import GoogleTranslate from './GoogleTranslate'
+import GoogleTranslate from '@/components/custom/GoogleTranslate'
+// import LangSelect from '@/components/custom/LangSelect'
+// import GoogleTranslate from './GoogleTranslate'
 
 const TopBarClassic = ({ children }: CommonProps) => {
     const { larger, smaller } = useResponsive()
@@ -36,7 +37,7 @@ const TopBarClassic = ({ children }: CommonProps) => {
                         headerEnd={
                             <>
                                 <Clock/>
-                                <GoogleTranslate />
+                                <GoogleTranslate /> 
                             </>
                         }
                     />
