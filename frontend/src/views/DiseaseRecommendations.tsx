@@ -1,64 +1,60 @@
 import React from "react";
 
-interface IApiResponse {
-  result: string;
-  status: boolean;
-  server_code: number;
-}
-
-interface IDiseaseRecommendations {
-  disease_name: string;
-  crop_type: string;
-  recommendations: string[];
-}
-
 interface Props {
-  responseString: string;
+  responseString: string;  // the raw `disease_recomendations` string from the API
 }
 
 const DiseaseRecommendations: React.FC<Props> = ({ responseString }) => {
   try {
-    // 1. Parse the outer API response
-    const parsedResponse = JSON.parse(responseString) as IApiResponse;
+    // 1) Parse the outermost API wrapper
+    //    {"result":"{...}","status":true,"server_code":200}
+    const layer0 = JSON.parse(responseString);
 
-    // 2. Extract the raw text that contains the disease recommendation data
-    const resultText = parsedResponse.result;
+    // 2) layer0.result is itself a JSON string:
+    //    {"disease_name":"...","crop_type":"...","recommendations":"{...}"}
+    const layer1 = JSON.parse(layer0.result);
 
-    // 3. Parse the disease recommendation data (which is a stringified JSON inside the `result`)
-    const diseaseData: IDiseaseRecommendations = JSON.parse(resultText);
+    // 3) layer1.recommendations is *again* a JSON string:
+    //    {"result":"{...}","status":true,"server_code":"dg"}
+    const layer2 = JSON.parse(layer1.recommendations);
 
-    // 4. Render the data
+    // 4) layer2.result finally contains the real object:
+    //    {"disease_name":"...","crop_type":"...","recommendations":[ "...", "...", ... ]}
+    const finalObj = JSON.parse(layer2.result) as {
+      disease_name: string;
+      crop_type: string;
+      recommendations: string[];
+    };
+
+    const { disease_name, crop_type, recommendations } = finalObj;
+
     return (
       <div className="p-3 space-y-5">
         <h2 className="text-2xl font-bold underline">Disease Information</h2>
-
         <div>
           <h3 className="text-lg font-semibold text-yellow-700">Crop Type:</h3>
-          <p>{diseaseData.crop_type}</p>
+          <p>{crop_type}</p>
         </div>
-
         <div>
           <h3 className="text-lg font-semibold text-yellow-700">Disease Name:</h3>
-          <p>{diseaseData.disease_name}</p>
+          <p>{disease_name}</p>
         </div>
-
         <div>
           <h3 className="text-lg font-semibold text-red-500">Recommendations:</h3>
-          {diseaseData.recommendations.length === 0 ? (
+          {recommendations.length === 0 ? (
             <p>No recommendations provided.</p>
           ) : (
             <ul className="list-disc list-inside">
-              {diseaseData.recommendations.map((recommendation, idx) => (
-                <li key={idx}>{recommendation}</li>
+              {recommendations.map((rec, idx) => (
+                <li key={idx}>{rec}</li>
               ))}
             </ul>
           )}
         </div>
       </div>
     );
-  } catch (error) {
-    // If there's any JSON parsing or other error
-    console.error("Error parsing the disease data:", error);
+  } catch (err) {
+    console.error("Error parsing the disease data:", err);
     return <div>Failed to parse disease information.</div>;
   }
 };

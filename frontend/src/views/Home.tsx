@@ -190,7 +190,7 @@ const Home = () => {
   const renderProgress = () => {
     if (!result) return null;
     const confidence = parseFloat(result.confidence.replace("%", ""));
-    const isSuccess = result.disease === "Healthy";
+    const isSuccess = result.disease === "No disease, the banana is healthy";
 
     return (
       <Progress
