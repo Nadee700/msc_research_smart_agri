@@ -24,7 +24,7 @@ const FooterContent = () => {
                     href="/#"
                     onClick={(e) => e.preventDefault()}
                 >
-                    Term & Conditions
+                    Terms & Conditions
                 </a>
                 <span className="mx-2 text-muted"> | </span>
                 <a

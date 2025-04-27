@@ -49,7 +49,6 @@ const SideNav = ({
     )
 
     const currentRouteKey = useRouteKeyStore((state) => state.currentRouteKey)
-
     const userAuthority = useSessionUser((state) => state.user.authority)
 
     return (
