@@ -1,0 +1,7 @@
+tensorflow==2.10.0
+opencv-python-headless
+flask
+pandas
+numpy
+scikit-learn
+requests

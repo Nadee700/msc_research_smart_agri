@@ -1,0 +1,56 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Dependency directories
+node_modules/
+.pnp/
+.pnp.js
+
+# Build output
+dist/
+build/
+.out/
+.next/
+.cache/
+
+# Static files
+*.lock
+public/static/
+public/**/*.map
+public/*.map
+
+# Test coverage
+coverage/
+
+# Debug files
+*.stackdump
+*.swp
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ESLint cache
+.eslintcache
+
+# Babel loader cache
+.babel-loader/
+
+# Temporary files
+tmp/
+temp/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
