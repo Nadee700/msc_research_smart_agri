@@ -7,6 +7,7 @@ from werkzeug.utils    import secure_filename
 from disease_detector  import predict_disease
 from weather_api       import get_weather
 from recommender       import get_disease_recommendations
+from recommender       import generate_recommendations
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
@@ -59,6 +60,27 @@ def predict():
     except Exception as e:
         traceback.print_exc()
         return jsonify(error=str(e)),500
+
+@app.route('/recommendations', methods=['POST'])
+def get_crop_recommendations():
+    try:
+        # Get crop type and weather data from request
+        if 'crop' not in request.form or 'weather_data' not in request.form:
+            return jsonify({'error': 'Crop type and weather data are required'}), 400
+
+        crop_type = request.form['crop']
+        weather_data = request.form['weather_data']  # This should be in JSON format
+        lang = request.form.get('lang', 'en') 
+
+        # Generate recommendations based on crop type and weather data
+        recommendations = generate_recommendations(weather_data, crop_type, lang)
+        return jsonify({
+            'crop': crop_type,
+            'recommendations': recommendations
+        })
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
