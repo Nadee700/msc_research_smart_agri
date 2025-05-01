@@ -14,7 +14,7 @@
     display: inline;
 }
 .card-body {
-    padding: 1.5rem;
+    padding: 1rem;
 }
 .header-wrapper.container.mx-auto {
     height: 75px;
@@ -23,4 +23,12 @@
     border-color: #1e6609;
     background-color: #5c880ccf;
     --tw-ring-color: #ffffff00;
+}
+label.text-ml.font-bold.text-left {
+    color: #171717;
+}
+.radio {
+    display: inline-block;
+    height: 1rem;
+    width: 1rem;
 }
