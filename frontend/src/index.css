@@ -13,9 +13,6 @@
     vertical-align: middle;
     display: inline;
 }
-.card-body {
-    padding: 1rem;
-}
 .header-wrapper.container.mx-auto {
     height: 75px;
 }
@@ -31,4 +28,8 @@ label.text-ml.font-bold.text-left {
     display: inline-block;
     height: 1rem;
     width: 1rem;
+}
+p.text-red-500.text-sm.mt-1 {
+    font-size: smaller;
+    text-align: right;
 }
