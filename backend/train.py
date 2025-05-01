@@ -53,7 +53,7 @@ val_generator = val_datagen.flow_from_directory(
     shuffle=False
 )
 
-# Save class indices
+# Save class indices / classs to index mapping
 class_indices = train_generator.class_indices
 with open(os.path.join(SAVE_DIR, "class_indices.json"), "w") as f:
     json.dump(class_indices, f)

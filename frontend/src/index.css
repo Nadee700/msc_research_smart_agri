@@ -9,3 +9,18 @@
     display: none;
 }
 
+.img, svg, video, canvas, audio, iframe, embed, object {
+    vertical-align: middle;
+    display: inline;
+}
+.card-body {
+    padding: 1.5rem;
+}
+.header-wrapper.container.mx-auto {
+    height: 75px;
+}
+.radio:checked {
+    border-color: #1e6609;
+    background-color: #5c880ccf;
+    --tw-ring-color: #ffffff00;
+}

@@ -1,19 +1,14 @@
-# app.py
-import io, json, traceback
-from flask             
-import Flask, request, jsonify
-from flask_cors        
-import CORS
-from werkzeug.utils    
-import secure_filename
-from disease_detector  
-import predict_disease
-from weather_api       
-import get_weather
-from recommender       
-import get_disease_recommendations
-from recommender       
-import generate_recommendations
+import io
+import json
+import traceback
+
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from werkzeug.utils import secure_filename
+
+from disease_detector import predict_disease
+from weather_api import get_weather
+from recommender import get_disease_recommendations, generate_recommendations
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})

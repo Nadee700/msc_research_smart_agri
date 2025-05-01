@@ -214,32 +214,59 @@ const Home = () => {
         style={{ height: "600px" }}
       >
         {/* LEFT COLUMN */}
-        <div className="flex-1" style={{ width: "33%", minWidth: "300px" }}>
-          <Card className="bg-white text-center border-none">
-            <div>
-              <label className="mb-10"><b>{t("enter_location")}</b> </label>
+        <div
+          className="flex-1 flex flex-col items-center"
+          style={{ width: "33%", minWidth: "300px" }}
+        >
+          <Card className="bg-white text-center border-none p-6">
+            {/* — Grid Rows: Label on left, Field on right */}
+            <div className="grid grid-cols-2 gap-x-4 items-center mb-6">
+              <label className="text-ml font-bold text-left">
+                Your Location
+              </label>
               <input
                 type="text"
-                placeholder={t("enter_location")}
+                placeholder="Enter your location"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="input input-bordered w-full max-w-xs mt-2 mb-2"
+                className="input input-bordered w-full"
               />
             </div>
-            <div>
-              <label className="mb-10"><b>{t("your_crop_name")}</b></label>
-              <input
-                type="text"
-                placeholder="Crop name"
-                value={crop}
-                onChange={(e) => setCrop(e.target.value)}
-                className="input input-bordered w-full max-w-xs mt-2 mb-2"
-              />
+  
+            <div className="grid grid-cols-2 gap-x-4 items-center mb-12">
+              <label className="text-ml font-bold text-left">
+                Select your crop type
+              </label>
+              <div className="flex items-center gap-6">
+                <label className="flex items-center gap-1">
+                  <input
+                    type="radio"
+                    name="crop"
+                    value="banana"
+                    checked={crop === "banana"}
+                    onChange={(e) => setCrop(e.target.value)}
+                    className="radio radio-neutral"
+                  />
+                  <span>Banana 🍌</span>
+                </label>
+                <label className="flex items-center gap-1">
+                  <input
+                    type="radio"
+                    name="crop"
+                    value="tomato"
+                    checked={crop === "tomato"}
+                    onChange={(e) => setCrop(e.target.value)}
+                    className="radio radio-primary"
+                  />
+                  <span>Tomato 🍅</span>
+                </label>
+              </div>
             </div>
-            <br />
+  
+            {/* Image Upload */}
             <Upload draggable uploadLimit={1} onChange={handleFileChange}>
               <div className="text-center p-4">
-                <FcImageFile className="text-5xl align-center mb-2"/>
+                <FcImageFile className="text-5xl mb-4" />
                 <p className="font-semibold">
                   <span>Drop your image here, or </span>
                   <span className="text-blue-500">browse</span>
@@ -247,67 +274,68 @@ const Home = () => {
                 <p className="opacity-60">Support: jpeg, png, gif</p>
               </div>
             </Upload>
-
+  
+            {/* Action Buttons */}
             {!submitted ? (
-              <div className="justify-between items-center">
+              <div className="flex justify-center gap-4 mt-6">
                 <button
-                  className="mt-4 py-2 px-4 bg-green-600 font-bold text-white rounded"
+                  className="py-2 px-4 bg-green-600 font-bold text-white rounded"
                   onClick={handleSubmit}
                 >
                   {t("get_recommendations")}
                 </button>
                 <button
-                  className="mt-4 py-2 px-4 bg-yellow-600 font-bold text-white mr-3 ml-4 rounded"
+                  className="py-2 px-4 bg-yellow-600 font-bold text-white rounded"
                   onClick={handleReset}
                 >
-                   {t("reset_results")}
+                  {t("reset_results")}
                 </button>
               </div>
             ) : (
-              <button
-                className="ml-2 mt-4 py-2 px-4 bg-yellow-600 font-bold text-white mr-3 ml-4 rounded"
-                onClick={handleReset}
-              >
-                     {t("reset_results")}
-              </button>
+              <div className="flex justify-center mt-6">
+                <button
+                  className="py-2 px-4 bg-yellow-600 font-bold text-white rounded"
+                  onClick={handleReset}
+                >
+                  {t("reset_results")}
+                </button>
+              </div>
             )}
           </Card>
         </div>
-
+  
         {/* MIDDLE COLUMN */}
         {imageUrl && (
           <div className="flex-1" style={{ width: "33%", minWidth: "300px" }}>
             <Card>
-              <h5>     {t("image_preview")} </h5>
+              <h5>{t("image_preview")}</h5>
               <br />
-              {imageUrl && (
-                <img
-                  src={imageUrl}
-                  alt="Uploaded Image"
-                  style={{ width: "100%", height: "auto", maxHeight: "250px" }}
-                />
-              )}
+              <img
+                src={imageUrl}
+                alt="Uploaded Image"
+                style={{ width: "100%", height: "auto", maxHeight: "250px" }}
+              />
               <br />
-              <h6>{t("disease_type")} </h6>
+              <h6>{t("disease_type")}</h6>
               <br />
               {loading ? <p>Loading...</p> : renderProgress()}
               {result && (
                 <p>
-                  {recoData(result?.disease_recomendations)?.disease_name} -{" "}
-                  {result?.confidence}
+                  {recoData(result.disease_recomendations)?.disease_name} –{" "}
+                  {result.confidence}
                 </p>
               )}
               <br />
             </Card>
           </div>
         )}
-
+  
         {/* RIGHT COLUMN */}
         {result && (
           <div className="flex-1" style={{ width: "33%", minWidth: "300px" }}>
             <Card>
               <DiseaseRecommendations
-                responseString={result?.disease_recomendations}
+                responseString={result.disease_recomendations}
               />
             </Card>
           </div>
@@ -315,6 +343,7 @@ const Home = () => {
       </div>
     </>
   );
+  
 };
 
 export default Home;
