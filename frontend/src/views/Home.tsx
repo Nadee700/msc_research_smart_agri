@@ -37,7 +37,7 @@ const Home = () => {
   const [file, setFile] = useState<File | null>(null);
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [location, setLocation] = useState<string>("");
+  const [location, setLocation] = useState<string>("Kandy");
   const [crop, setCrop] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -359,6 +359,7 @@ const Home = () => {
         {imageUrl && (
           <div
             className="flex-1"
+            id="preview"
             style={{ width: "33%", minWidth: "300px" }}
           >
             <Card>

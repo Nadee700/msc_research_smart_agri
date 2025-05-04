@@ -6,6 +6,8 @@ interface Props {
 
 const DiseaseRecommendations: React.FC<Props> = ({ responseString }) => {
   try {
+    console.log(responseString, "responseString");
+    
     // 1) Parse the outermost API wrapper
     //    {"result":"{...}","status":true,"server_code":200}
     const layer0 = JSON.parse(responseString);

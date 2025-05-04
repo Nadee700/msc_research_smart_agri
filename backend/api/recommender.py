@@ -29,7 +29,7 @@ def generate_recommendations(weather_data, crop_type, lang="en"):
     })
 
     headers = {
-        'x-rapidapi-key': "68f442c120mshfc98116ff2822a8p1b66d9jsnf2a50ff52686",
+        'x-rapidapi-key': "ca327c5392msh69e541b9aba7c1bp1dc18ajsn02072e67783a",
         'x-rapidapi-host': "chatgpt-42.p.rapidapi.com",
         'Content-Type': "application/json"
     }
@@ -58,6 +58,8 @@ def generate_recommendations(weather_data, crop_type, lang="en"):
         print("Error: Response is not a dict or doesn't contain expected keys.")
         return {"risks": [], "recommendations": []}
 
+
+
 # New function to get disease-specific recommendations
 def get_disease_recommendations(disease_name, crop_type):
     system_content = (
@@ -85,7 +87,7 @@ def get_disease_recommendations(disease_name, crop_type):
     })
 
     headers = {
-        'x-rapidapi-key': "68f442c120mshfc98116ff2822a8p1b66d9jsnf2a50ff52686",
+        'x-rapidapi-key': "ca327c5392msh69e541b9aba7c1bp1dc18ajsn02072e67783a",
         'x-rapidapi-host': "chatgpt-42.p.rapidapi.com",
         'Content-Type': "application/json"
     }
