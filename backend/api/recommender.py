@@ -1,5 +1,18 @@
 import http.client
 import json
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+RAPIDAPI_KEY = os.getenv("RAPIDAPI_KEY")
+RAPIDAPI_HOST = os.getenv("RAPIDAPI_HOST")
+
+HEADERS = {
+    'x-rapidapi-key': RAPIDAPI_KEY,
+    'x-rapidapi-host': RAPIDAPI_HOST,
+    'Content-Type': "application/json"
+}
 
 def generate_recommendations(weather_data, crop_type, lang="en"):
     system_content = (
@@ -28,14 +41,9 @@ def generate_recommendations(weather_data, crop_type, lang="en"):
         "web_access": False
     })
 
-    headers = {
-        'x-rapidapi-key': "ca327c5392msh69e541b9aba7c1bp1dc18ajsn02072e67783a",
-        'x-rapidapi-host': "chatgpt-42.p.rapidapi.com",
-        'Content-Type': "application/json"
-    }
 
-    conn = http.client.HTTPSConnection("chatgpt-42.p.rapidapi.com")
-    conn.request("POST", "/chatgpt", payload, headers)
+    conn = http.client.HTTPSConnection(RAPIDAPI_HOST)
+    conn.request("POST", "/conversationllama", payload, HEADERS)
     res = conn.getresponse()
     data = res.read()
     conn.close()
@@ -86,14 +94,8 @@ def get_disease_recommendations(disease_name, crop_type):
         "web_access": False
     })
 
-    headers = {
-        'x-rapidapi-key': "ca327c5392msh69e541b9aba7c1bp1dc18ajsn02072e67783a",
-        'x-rapidapi-host': "chatgpt-42.p.rapidapi.com",
-        'Content-Type': "application/json"
-    }
-
-    conn = http.client.HTTPSConnection("chatgpt-42.p.rapidapi.com")
-    conn.request("POST", "/chatgpt", payload, headers)
+    conn = http.client.HTTPSConnection(RAPIDAPI_HOST)
+    conn.request("POST", "/conversationllama", payload, HEADERS)
     res = conn.getresponse()
     data = res.read()
     conn.close()
