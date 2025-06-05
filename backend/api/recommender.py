@@ -14,6 +14,7 @@ HEADERS = {
     'Content-Type': "application/json"
 }
 
+# generate recomednations based on weather calling the function get_crop_recommendations
 def generate_recommendations(weather_data, crop_type, lang="en"):
     system_content = (
         "You are ChatGPT, an expert agronomist that strictly returns valid JSON. "

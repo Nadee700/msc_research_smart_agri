@@ -7,6 +7,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
 from disease_detector import predict_disease
+from disease_detector_tomato import predict_disease_tomato
 from weather_api import get_weather
 from recommender import get_disease_recommendations, generate_recommendations
 
@@ -17,6 +18,7 @@ ALLOWED = {'png','jpg','jpeg','bmp','gif'}
 def allowed_file(fn):
     return '.' in fn and fn.rsplit('.',1)[1].lower() in ALLOWED
 
+# image detection and recomendations
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
@@ -29,7 +31,10 @@ def predict():
         buf  = io.BytesIO(img.read())
         crop = request.form.get('crop', "")[:50]
 
-        disease_name, confidence, _ = predict_disease(buf, crop)
+        if crop == 'banana':
+            disease_name, confidence, _ = predict_disease(buf, crop)
+        else:
+            disease_name, confidence, _ = predict_disease_tomato(buf, crop)
         location = request.form.get('location','Colombo')
         weather  = get_weather(location)
 
@@ -62,6 +67,7 @@ def predict():
         traceback.print_exc()
         return jsonify(error=str(e)),500
 
+# focast weather related recomendations
 @app.route('/recommendations', methods=['POST'])
 def get_crop_recommendations():
     try:

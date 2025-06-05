@@ -1,9 +1,13 @@
 import requests
+import os
+from dotenv import load_dotenv
 
-API_KEY = '56e319dc3dc24818a9c182747251801'
+load_dotenv()
+
+WEATHER_API = os.getenv("WEATHER_API")
 
 def get_weather(location):
-    url = f"http://api.weatherapi.com/v1/forecast.json?key={API_KEY}&q={location}&days=3&aqi=no&alerts=no"
+    url = f"http://api.weatherapi.com/v1/forecast.json?key={WEATHER_API}&q={location}&days=3&aqi=no&alerts=no"
     response = requests.get(url)
     print(response)
     if response.status_code == 200:
