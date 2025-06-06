@@ -29,22 +29,33 @@ def humanize(label: str) -> str:
 
 def preprocess_image(path: str):
     """Load, resize, and apply CLAHE to image."""
+    # Resizes it to 224×224 pixels (EfficientNet/MobileNet input size).Converts it to a NumPy array.
     img = load_img(path, target_size=IMG_SIZE)
     arr = img_to_array(img).astype("uint8")
 
+   # Convert RGB to LAB Color Space
     lab = cv2.cvtColor(arr, cv2.COLOR_RGB2LAB)
     l, a, b = cv2.split(lab)
+
+    # Apply CLAHE to Lightness Channel
+    # CLAHE = Contrast Limited Adaptive Histogram Equalization. It enhances local contrast and reveals subtle leaf texture/patterns
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
     cl = clahe.apply(l)
+
+    # Mergerd andConvert back to RGB so the CNN model can understand it.
     merged = cv2.merge((cl, a, b))
     enhanced = cv2.cvtColor(merged, cv2.COLOR_LAB2RGB)
 
     return arr, enhanced
 
+
+
 def predict_disease_tomato(image_path: str, crop: str = "Tomato"):
     """Return (human_readable_label, confidence, crop)."""
     original, enhanced = preprocess_image(image_path)
 
+   # Preprocess the enhanced image using preprocess_input (EfficientNet-style normalization).
+   #Expand dimensions to shape [1, 224, 224, 3].Feed the same input twice because this model expects a [EffNet_input, MobNet_input] pair.
     inp = preprocess_input(enhanced.astype("float32"))
     inp = np.expand_dims(inp, axis=0)
 
@@ -67,12 +78,14 @@ def predict_disease_tomato(image_path: str, crop: str = "Tomato"):
         hsv = cv2.cvtColor(original, cv2.COLOR_RGB2HSV)
         mask = cv2.inRange(hsv, (35, 50, 50), (85, 255, 255))
         green_ratio = np.sum(mask) / (mask.size * 255)
+        # Measures how much of the leaf is green.If green > 60%, it might actually be healthy.
 
         gray = cv2.cvtColor(original, cv2.COLOR_RGB2GRAY)
         blur = cv2.GaussianBlur(gray, (5, 5), 0)
         sx = cv2.Sobel(blur, cv2.CV_64F, 1, 0, ksize=3)
         sy = cv2.Sobel(blur, cv2.CV_64F, 0, 1, ksize=3)
         edge_intensity = np.mean(np.sqrt(sx**2 + sy**2))
+        # Uses Sobel filter to measure edge sharpness and texture. If edges are smooth (low intensity), it's more likely a healthy leaf.
 
         print(f"Image analysis — Green ratio: {green_ratio:.3f}, Edge intensity: {edge_intensity:.3f}")
 

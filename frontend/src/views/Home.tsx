@@ -188,7 +188,7 @@ const Home = () => {
     if (!result) return null;
     const confidence = parseFloat(result.confidence.replace("%", ""));
     const isHealthy =
-      result.disease === "No disease, the banana is healthy";
+      result.disease === "No disease, the banana is healthy" || result.disease === "No disease, the Tomato is healthy";
     return (
       <Progress
         customColorClass={isHealthy ? "bg-green-500" : "bg-red-500"}

@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 
-from disease_detector import predict_disease
+from disease_detector_banana import predict_disease_banana
 from disease_detector_tomato import predict_disease_tomato
 from weather_api import get_weather
 from recommender import get_disease_recommendations, generate_recommendations
@@ -32,7 +32,7 @@ def predict():
         crop = request.form.get('crop', "")[:50]
 
         if crop == 'banana':
-            disease_name, confidence, _ = predict_disease(buf, crop)
+            disease_name, confidence, _ = predict_disease_banana(buf, crop)
         else:
             disease_name, confidence, _ = predict_disease_tomato(buf, crop)
         location = request.form.get('location','Colombo')

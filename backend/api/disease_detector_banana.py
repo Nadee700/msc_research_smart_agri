@@ -10,7 +10,7 @@ import cv2
 BASE_DIR    = os.path.dirname(__file__)
 MODEL_DIR   = os.path.abspath(os.path.join(BASE_DIR, "..", "models"))
 MODEL_FP    = os.path.join(MODEL_DIR, "ensemble_disease_classifier.h5")
-IDX_FP      = os.path.join(MODEL_DIR, "class_indices.json")
+IDX_FP      = os.path.join(MODEL_DIR, "class_indices_banana.json")
 IMG_SIZE    = (224, 224)
 
 # ─── LOAD MODEL & CLASS MAP ──────────────────────────────────────────────────
@@ -41,7 +41,7 @@ def preprocess_image(path: str):
 
     return arr, enhanced
 
-def predict_disease(image_path: str, crop: str = "Banana"):
+def predict_disease_banana(image_path: str, crop: str = "Banana"):
     """Return (human_readable_label, confidence, crop)."""
     original, enhanced = preprocess_image(image_path)
 
