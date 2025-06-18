@@ -60,7 +60,6 @@ def generate_recommendations(weather_data, crop_type, lang="en"):
     conn.close()
 
     raw_response = data.decode("utf-8")
-    # print("RAW RESPONSE:", raw_response)  # Debug: see what actually comes back
 
     # Attempt to parse ChatGPT's response
     try:
