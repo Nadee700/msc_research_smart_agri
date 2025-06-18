@@ -17,16 +17,17 @@ IMG_SIZE    = (224, 224)
 print(f"Loading ensemble model from {MODEL_FP}")
 model = tf.keras.models.load_model(MODEL_FP)
 
+#Load the model and mapping the class indexes
 with open(IDX_FP) as f:
     cls2idx = json.load(f)
 idx2cls = {v: k for k, v in cls2idx.items()}
 
-# ─── UTILITIES ───────────────────────────────────────────────────────────────
 def humanize(label: str) -> str:
     if label == "Banana_Healthy":
         return "No disease, the banana is healthy"
     return label.replace("_", " ")
 
+# ─── Image processing ───────────────────────────────────────────────────────────────
 def preprocess_image(path: str):
     """Load, resize, and apply CLAHE to image."""
     img = load_img(path, target_size=IMG_SIZE)
@@ -34,6 +35,7 @@ def preprocess_image(path: str):
 
     lab = cv2.cvtColor(arr, cv2.COLOR_RGB2LAB)
     l, a, b = cv2.split(lab)
+    #CLACHE (Contrast Limited Adaptive Histogram Equalization) 
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
     cl = clahe.apply(l)
     merged = cv2.merge((cl, a, b))
@@ -41,6 +43,7 @@ def preprocess_image(path: str):
 
     return arr, enhanced
 
+# ─── Function of Banana prediction ───────────────────────────────────────────────────
 def predict_disease_banana(image_path: str, crop: str = "Banana"):
     """Return (human_readable_label, confidence, crop)."""
     original, enhanced = preprocess_image(image_path)
@@ -48,7 +51,7 @@ def predict_disease_banana(image_path: str, crop: str = "Banana"):
     inp = preprocess_input(enhanced.astype("float32"))
     inp = np.expand_dims(inp, axis=0)
 
-    # Ensemble input expects [EffNet_input, MobNet_input]
+    # Runs prediction using the ensemble model (likely combining EfficientNet and MobileNet).
     probs = model.predict([inp, inp])[0]
 
     # Debug: Show top-3 predictions
@@ -96,6 +99,6 @@ def predict_disease_banana(image_path: str, crop: str = "Banana"):
 if __name__ == "__main__":
     import sys
     if len(sys.argv) > 1:
-        predict_disease(sys.argv[1])
+        predict_disease_banana(sys.argv[1])
     else:
         print("Usage: python disease_detector.py [path_to_image]")
