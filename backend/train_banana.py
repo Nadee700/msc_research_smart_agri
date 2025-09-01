@@ -172,4 +172,4 @@ ensemble_model.fit(
 # Save the final trained model
 model_path = os.path.join(SAVE_DIR, "ensemble_disease_classifier.h5")
 ensemble_model.save(model_path)
-print(f"✅ Ensemble model saved at: {model_path}")
+print(f"Ensemble model saved at: {model_path}")

@@ -165,4 +165,4 @@ ensemble_model.fit(
 # ─── Save Final Model ─────────────────────────────────────────────────────────
 model_path = os.path.join(SAVE_DIR, "tomato_ensemble_disease_classifier.h5")
 ensemble_model.save(model_path)
-print(f"✅ Tomto Ensemble model saved at: {model_path}")
+print(f"Tomto Ensemble model saved at: {model_path}")

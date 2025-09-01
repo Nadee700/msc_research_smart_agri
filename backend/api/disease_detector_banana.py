@@ -90,7 +90,7 @@ def predict_disease_banana(image_path: str, crop: str = "Banana"):
             label = "Banana_Healthy"
             name = humanize(label)
             conf = float(probs[healthy_idx])
-            print("🔁 Overridden as Healthy due to visual cues")
+            print("Overridden as Healthy due to visual cues")
 
     print(f"→ Final prediction: {name} @ {conf:.2%}")
     return name, conf, crop

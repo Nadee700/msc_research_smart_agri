@@ -40,10 +40,6 @@ def predict():
 
         # get raw list of recomms
         rec_list = get_disease_recommendations(disease_name, crop)
-
-        # FE expects a string to JSON.parse twice:
-        #    JSON.parse(disease_recomendations).result → JSON string
-        #    JSON.parse(that).disease_name, etc.
         inner = {
             "disease_name": disease_name,
             "crop_type":    crop,
